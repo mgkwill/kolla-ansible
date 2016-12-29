@@ -110,7 +110,7 @@ tunnel_interface: "{{ network_interface }}"
 bifrost_network_interface: "{{ network_interface }}"
 tunnel_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}"
 
-# Valid options are [ openvswitch, linuxbridge, sfc ]
+# Valid options are [ openvswitch, linuxbridge, sfc, opendaylight ]
 neutron_plugin_agent: "openvswitch"
 
 # The default ports used by each service.
@@ -150,9 +150,6 @@ keystone_ssh_port: "8023"
 glance_api_port: "9292"
 glance_registry_port: "9191"
 
-octavia_api_port: "9876"
-octavia_health_manager_port: "5555"
-
 nova_api_port: "8774"
 nova_metadata_port: "8775"
 nova_novncproxy_port: "6080"
@@ -181,10 +178,6 @@ ironic_api_port: "6385"
 
 magnum_api_port: "9511"
 
-solum_application_deployment_port: "9777"
-
-solum_image_builder_port: "9778"
-
 rgw_port: "6780"
 
 mistral_api_port: "8989"
@@ -202,8 +195,6 @@ influxdb_http_port: "8086"
 
 senlin_api_port: "8778"
 
-trove_api_port: "8779"
-
 etcd_client_port: "2379"
 etcd_peer_port: "2380"
 
@@ -213,16 +204,16 @@ searchlight_api_port: "9393"
 
 grafana_server_port: "3000"
 
-tacker_server_port: "9890"
-
 public_protocol: "{{ 'https' if kolla_enable_tls_external | bool else 'http' }}"
 internal_protocol: "http"
 admin_protocol: "http"
 
+opendaylight_port: "8181"
+
 ####################
 # OpenStack options
 ####################
-openstack_release: "4.0.0"
+openstack_release: "3.0.0"
 openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
@@ -288,20 +279,15 @@ enable_murano: "no"
 enable_neutron_vpnaas: "no"
 enable_neutron_dvr: "no"
 enable_neutron_lbaas: "no"
-enable_neutron_fwaas: "no"
 enable_neutron_qos: "no"
 enable_neutron_agent_ha: "no"
-enable_octavia: "no"
 enable_rally: "no"
 enable_sahara: "no"
 enable_searchlight: "no"
 enable_senlin: "no"
-enable_solum: "no"
 enable_swift: "no"
-enable_tacker: "no"
 enable_telegraf: "no"
 enable_tempest: "no"
-enable_trove: "no"
 enable_vmtp: "no"
 enable_watcher: "no"
 
@@ -315,9 +301,6 @@ num_nova_fake_per_node: 5
 
 # Monitoring options are specified here
 enable_collectd: "no"
-
-# Clean images options are specified here
-enable_destroy_images: "no"
 
 ####################
 # Logging options
@@ -362,7 +345,6 @@ keystone_public_url: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ keyst
 keystone_token_provider: "uuid"
 fernet_token_expiry: 86400
 
-keystone_default_user_role: "_member_"
 
 #######################
 # Glance options
@@ -390,9 +372,6 @@ gnocchi_backend_storage: "{{ 'ceph' if enable_ceph|bool else 'file' }}"
 #################################
 cinder_backend_ceph: "{{ enable_ceph }}"
 cinder_volume_group: "cinder-volumes"
-cinder_backup_driver: "nfs"
-cinder_backup_share: ""
-cinder_backup_mount_options_nfs: ""
 
 #######################
 # Cloudkitty options
@@ -412,15 +391,6 @@ nova_backend: "{{ 'rbd' if nova_backend_ceph | bool else 'default' }}"
 # Horizon options
 #######################
 horizon_backend_database: "no"
-
-#################
-# Octavia options
-#################
-# Load balancer topology options are [ SINGLE, ACTIVE_STANDBY ]
-octavia_loadbalancer_topology: "SINGLE"
-octavia_amp_boot_network_list:
-octavia_amp_secgroup_list:
-octavia_amp_flavor_id:
 
 ###################
 # Ceph options
@@ -444,9 +414,6 @@ ceph_osd_mount_options: "defaults,noatime"
 # A requirement for using the erasure-coded pools is you must setup a cache tier
 # Valid options are [ erasure, replicated ]
 ceph_pool_type: "replicated"
-
-# Integrate ceph rados object gateway with openstack keystone
-enable_ceph_rgw_keystone: "no"
 
 ceph_cinder_pool_name: "volumes"
 ceph_cinder_backup_pool_name: "backups"

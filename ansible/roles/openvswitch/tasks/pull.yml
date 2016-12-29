@@ -1,0 +1,30 @@
+---
+- name: Pulling openvswitch-db image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ openvswitch_db_image_full }}"
+  when:
+    - (inventory_hostname in groups['compute']
+       or (enable_manila | bool and inventory_hostname in groups['manila-share'])
+       or inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
+    - neutron_plugin_agent == "openvswitch"
+        or neutron_plugin_agent == "opendaylight"
+
+- name: Pulling openvswitch-vswitchd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ openvswitch_vswitchd_image_full }}"
+  when:
+    - (inventory_hostname in groups['compute']
+       or (enable_manila | bool and inventory_hostname in groups['manila-share'])
+       or inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
+    - neutron_plugin_agent == "openvswitch"
+        or neutron_plugin_agent == "opendaylight"

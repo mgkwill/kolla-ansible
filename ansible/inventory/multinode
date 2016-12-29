@@ -32,7 +32,6 @@ control
 network
 compute
 storage
-monitoring
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
@@ -85,6 +84,12 @@ control
 [neutron:children]
 network
 
+[openvswitch:children]
+network
+
+[opendaylight:children]
+network
+
 [cinder:children]
 control
 
@@ -107,9 +112,6 @@ control
 control
 
 [murano:children]
-control
-
-[solum:children]
 control
 
 [ironic:children]
@@ -142,12 +144,6 @@ control
 [gnocchi:children]
 control
 
-[tacker:children]
-control
-
-[trove:children]
-control
-
 # Tempest
 [tempest:children]
 control
@@ -165,9 +161,6 @@ control
 control
 
 [searchlight:children]
-control
-
-[octavia:children]
 control
 
 # Additional control implemented here. These groups allow you to control which
@@ -344,19 +337,6 @@ sahara
 [sahara-engine:children]
 sahara
 
-# Solum
-[solum-api:children]
-solum
-
-[solum-worker:children]
-solum
-
-[solum-deployer:children]
-solum
-
-[solum-conductor:children]
-solum
-
 # Mistral
 [mistral-api:children]
 mistral
@@ -416,16 +396,6 @@ gnocchi
 [gnocchi-metricd:children]
 gnocchi
 
-# Trove
-[trove-api:children]
-trove
-
-[trove-conductor:children]
-trove
-
-[trove-taskmanager:children]
-trove
-
 # Multipathd
 [multipathd:children]
 compute
@@ -453,16 +423,3 @@ searchlight
 
 [searchlight-listener:children]
 searchlight
-
-# Octavia
-[octavia-api:children]
-octavia
-
-[octavia-health-manager:children]
-octavia
-
-[octavia-housekeeping:children]
-octavia
-
-[octavia-worker:children]
-octavia

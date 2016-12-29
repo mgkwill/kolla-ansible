@@ -13,14 +13,25 @@ tenant_network_types = vxlan
 mechanism_drivers = openvswitch,l2population
 {% elif neutron_plugin_agent == "linuxbridge" %}
 mechanism_drivers = linuxbridge,l2population
+{% elif neutron_plugin_agent == "opendaylight" %}
+mechanism_drivers = openvswitch,l2population,logger,{{ opendaylight_mechanism_driver }}
 {% endif %}
 
 {% if enable_neutron_qos | bool %}
 extension_drivers = qos
 {% endif %}
 
-{% if enable_tacker | bool %}
-extension_drivers = port_security
+[ml2_odl]
+{% if enable_opendaylight | bool %}
+url={{ odl_endpoint }}
+username={{ odl_username }}
+password={{ odl_password }}
+port_binding_controller={{ odl_port_binding_controller }}
+timeout={{ odl_timeout }}
+odl_hostconf_uri={{ odl_hostconf_uri }}
+    {% if enable_opendaylight_lightweight_testing | bool %}
+    enable_lightweight_testing=True
+    {% endif %}
 {% endif %}
 
 [ml2_type_vlan]

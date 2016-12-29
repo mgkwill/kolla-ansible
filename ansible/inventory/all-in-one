@@ -66,6 +66,12 @@ control
 [neutron:children]
 network
 
+[openvswitch:children]
+network
+
+[opendaylight:children]
+network
+
 [cinder:children]
 control
 
@@ -105,9 +111,6 @@ control
 [sahara:children]
 control
 
-[solum:children]
-control
-
 [mistral:children]
 control
 
@@ -126,9 +129,6 @@ control
 [congress:children]
 control
 
-[tacker:children]
-control
-
 # Tempest
 [tempest:children]
 control
@@ -139,9 +139,6 @@ control
 [vmtp:children]
 control
 
-[trove:children]
-control
-
 [watcher:children]
 control
 
@@ -149,9 +146,6 @@ control
 control
 
 [searchlight:children]
-control
-
-[octavia:children]
 control
 
 # Additional control implemented here. These groups allow you to control which
@@ -284,16 +278,6 @@ barbican
 [barbican-worker:children]
 barbican
 
-# Trove
-[trove-api:children]
-trove
-
-[trove-conductor:children]
-trove
-
-[trove-taskmanager:children]
-trove
-
 # Heat
 [heat-api:children]
 heat
@@ -330,19 +314,6 @@ magnum
 
 [magnum-conductor:children]
 magnum
-
-# Solum
-[solum-api:children]
-solum
-
-[solum-worker:children]
-solum
-
-[solum-deployer:children]
-solum
-
-[solum-conductor:children]
-solum
 
 # Mistral
 [mistral-api:children]
@@ -437,16 +408,3 @@ searchlight
 
 [searchlight-listener:children]
 searchlight
-
-# Octavia
-[octavia-api:children]
-octavia
-
-[octavia-health-manager:children]
-octavia
-
-[octavia-housekeeping:children]
-octavia
-
-[octavia-worker:children]
-octavia

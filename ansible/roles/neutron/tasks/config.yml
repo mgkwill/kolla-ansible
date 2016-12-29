@@ -22,8 +22,6 @@
     - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
-    - "openvswitch-db-server"
-    - "openvswitch-vswitchd"
     - "neutron-lbaas-agent"
     - "neutron-vpnaas-agent"
 
@@ -38,8 +36,6 @@
     - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
-    - "openvswitch-db-server"
-    - "openvswitch-vswitchd"
     - "neutron-lbaas-agent"
     - "neutron-vpnaas-agent"
 
@@ -116,7 +112,6 @@
     sources:
       - "{{ role_path }}/templates/dhcp_agent.ini.j2"
       - "{{ node_custom_config }}/neutron/dhcp_agent.ini"
-      - "{{ node_custom_config }}/neutron/{{ inventory_hostname }}/dhcp_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/dhcp_agent.ini"
   with_items:
     - "neutron-dhcp-agent"
@@ -135,7 +130,6 @@
     sources:
       - "{{ role_path }}/templates/l3_agent.ini.j2"
       - "{{ node_custom_config }}/neutron/l3_agent.ini"
-      - "{{ node_custom_config }}/neutron/{{ inventory_hostname }}/l3_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/l3_agent.ini"
   with_items:
     - "neutron-l3-agent"
@@ -193,15 +187,6 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/neutron/policy.json"
-    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
-  with_items:
-    - "neutron-dhcp-agent"
-    - "neutron-l3-agent"
-    - "neutron-linuxbridge-agent"
-    - "neutron-metadata-agent"
-    - "neutron-openvswitch-agent"
-    - "neutron-server"
-    - "neutron-lbaas-agent"
-    - "neutron-vpnaas-agent"
+    dest: "{{ node_config_directory }}/neutron/policy.json"
   when:
     neutron_policy.stat.exists
